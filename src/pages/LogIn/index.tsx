@@ -1,9 +1,12 @@
 
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useContext, useRef } from 'react';
 import { FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
-import { Link } from 'react-router-dom'
-import { Api } from '../../utils/firebase'
+import { Link, Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import { AuthContext } from '../../hooks/auth'
+import {Api} from '../../utils/firebase'
+
 
 import Input from '../../assets/components/Input'
 import Button from '../../assets/components/Button'
@@ -17,20 +20,30 @@ interface LogInFormData{
   password: any
 }
 
+
 const LogIn: React.FC = () => {
 
   const formRef = useRef<FormHandles>(null)
+  const history = useHistory()
+
   
   const handleSubmit = useCallback(async (data: LogInFormData ) => {
+    
     try {
-      const user = await Api.auth().signInWithEmailAndPassword(data.email, data.password)
-      console.log(user)
+      await Api.auth().signInWithEmailAndPassword(data.email, data.password)
+      history.push('/') 
       
     } catch (error) {
       console.log(error)
       
     }
-  },[])
+  },[history])
+
+  const { currentUser } = useContext(AuthContext);
+
+  if (currentUser) {
+    return <Redirect to="/" />;
+  } 
   
   return(
       <Container>

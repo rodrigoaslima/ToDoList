@@ -105,4 +105,19 @@ export const Menu = styled.div`
         color: #FFFFFF;
     }
 
-` 
+`
+
+export const Todo = styled.span`
+    display: flex;
+    div{
+        border: 1px solid;
+        width: 15px;
+        height: 15px;
+        margin-bottom: 0px;
+        align-self: center;
+    }
+    p{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+`

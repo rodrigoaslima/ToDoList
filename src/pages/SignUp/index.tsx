@@ -28,8 +28,13 @@ const SignUp: React.FC = () => {
   const handleSubmit = useCallback(async (data: SignInFormData ) => {
     try {
       await Api.auth().createUserWithEmailAndPassword(data.email, data.password)
+        try{
+          await Api.database().ref().child('users').push()
+          console.log('AAAAAAA: ', Api.database().ref().child('users').key)
+        } catch (error){
+          console.log(error)
+        }
       history.push('/Login')
-
     } catch (error) {
       console.log(error)
       
